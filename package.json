@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "swiper": "^9.0.0",
+    "vue": "^3.2.45"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/compiler-sfc": "^3.2.45",
+    "vite": "^4.0.4"
+  },
+  "license": "MIT",
+  "name": "swiper-vue-vertical",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "start": "vite"
+  },
+  "tags": [
+    "swiper"
+  ]
+}
