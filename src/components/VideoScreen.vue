@@ -6,19 +6,32 @@
     class="mySwiper"
     ref="mySwiper"
   >
-    <swiper-slide v-for="slide in list" :key="slide.guid">
-      <video-player 
-      v-slot="{ isActive }"
+  <swiper-slide>
+    <h1>Welcome to our AI project. <br> <br>If you interested swipe screen up</h1>
+  </swiper-slide>
+  <swiper-slide v-slot="{isActive}">
+    <PreSlide :isActive="isActive"></PreSlide>
+  </swiper-slide>
+  <swiper-slide>
+    <h1>That's all. Enjoy our videos</h1>
+  </swiper-slide>
+    <swiper-slide 
+    v-for="slide in list" 
+    v-slot="{isActive}"
+    >
+      <VideoPlayer 
         :guid="slide.guid"
+        :isActive="isActive"
         >
-      </video-player>
+      </VideoPlayer>
     </swiper-slide>
   </swiper>
 </template>
-<script >
+<script>
   // Import Swiper Vue.js components
   import { Swiper, SwiperSlide } from 'swiper/vue';
   import VideoPlayer from './VideoPlayer.vue';
+  import PreSlide from './PreSlide.vue';
   import {listVideos} from '../requests/list_video'
   import { ref, watch} from 'vue';
 
@@ -30,12 +43,12 @@
   import '../style.css';
 
   // import required modules
-  import { Pagination } from 'swiper';
   export default {
     components: {
       Swiper,
       SwiperSlide,
-      VideoPlayer
+      VideoPlayer,
+      PreSlide
     },
     methods: {
     handleSlideChange() {
@@ -46,11 +59,11 @@
   },
     async setup(data) {
       const res = await listVideos();
-      const list = ref(res.items)
+      let list = res.items
       const mySwiper = ref(null);
       const slidesRefs = ref([]);
       return {
-        modules: [Pagination],
+        modules: [],
         list,
         mySwiper
       };
