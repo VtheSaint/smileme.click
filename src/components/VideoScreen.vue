@@ -6,15 +6,20 @@
     class="mySwiper"
     ref="mySwiper"
   >
-  <swiper-slide>
-    <h1>Welcome to our AI project. <br> <br>If you interested swipe screen up</h1>
-  </swiper-slide>
+  
   <swiper-slide v-slot="{isActive}">
-    <PreSlide :isActive="isActive"></PreSlide>
+    <InfoSlide :isActive="isActive">
+    </InfoSlide>
   </swiper-slide>
-  <swiper-slide>
-    <h1>That's all. Enjoy our videos</h1>
+  
+  <swiper-slide v-slot="{isActive}">
+    <PreSlide 
+    :guid="pre.guid" 
+    :isActive="isActive"
+    >
+  </PreSlide>
   </swiper-slide>
+
     <swiper-slide 
     v-for="slide in list" 
     v-slot="{isActive}"
@@ -25,15 +30,19 @@
         >
       </VideoPlayer>
     </swiper-slide>
+
   </swiper>
 </template>
 <script>
   // Import Swiper Vue.js components
   import { Swiper, SwiperSlide } from 'swiper/vue';
+  // Components
   import VideoPlayer from './VideoPlayer.vue';
   import PreSlide from './PreSlide.vue';
+  import InfoSlide from './InfoSlide.vue';
   import {listVideos} from '../requests/list_video'
-  import { ref, watch} from 'vue';
+  import {shuffleArray} from '../utils/shuffle_array'
+  import { ref} from 'vue';
 
   // Import Swiper styles
   import 'swiper/css';
@@ -48,7 +57,8 @@
       Swiper,
       SwiperSlide,
       VideoPlayer,
-      PreSlide
+      PreSlide,
+      InfoSlide
     },
     methods: {
     handleSlideChange() {
@@ -60,12 +70,15 @@
     async setup(data) {
       const res = await listVideos();
       let list = res.items
+      shuffleArray(list);
+      const pre = list.pop()
       const mySwiper = ref(null);
       const slidesRefs = ref([]);
       return {
         modules: [],
         list,
-        mySwiper
+        mySwiper,
+        pre
       };
     },
   };

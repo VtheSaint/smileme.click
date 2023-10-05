@@ -11,7 +11,6 @@
       >
       <source :src="url" type="video/mp4" />
       <source :src="m3u8_url" type="video/mp4" />
-
     </video>
     </div>
   </template>
