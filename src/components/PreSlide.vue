@@ -140,35 +140,46 @@ const res = await createRoom()
                     //   'event': 'cameraAccess',
                     //   'cameraStatus': 'Denied'
                     // });
-                    console.log("Запрет");
-                    gtag('event', 'camera_permission_denied', {
-                      'event_category': 'Camera Access',
-                      'event_label': 'Denied'
-                    });
+                    console.log("Доступ был запрещен");
+                    if (typeof gtag === 'function') {
+                      // Send event to Google Analytics 4
+                      gtag('event', 'camera_permission_denied', {
+                        'event_category': 'Camera Access',
+                        'event_label': 'Denied'
+                      });
+                    }
+
 
 
               }
               else {
                 // Some errors occured
-                console.log("Token is " + res.token);
-                console.log("проеб");
+                // console.log("Какие-то ошибки");
+                console.log(error.type);
                 check.value = "failed"
-                // gtag('event', 'camera_permission_granted', {
-                //   'event_category': 'Camera Access',
-                //   'event_label': 'Granted'
-                // });
+
 
               }
           }
           
           if (success && success != null) { 
-          room = success.room;
-          window.dataLayer = window.dataLayer || [];
+
           // dataLayer.push({
           //   'event': 'cameraAccess',
           //   'cameraStatus': 'Granted'
           // });
-          ga('send', 'event', 'Camera Permission', 'Denied', 'User denied camera access');
+          console.log("Доступ был разрешен");
+          if (typeof gtag === 'function') {
+            // Send event to Google Analytics 4
+            gtag('event', 'camera_permission_granted', {
+              'event_category': 'Camera Access',
+              'event_label': 'Granted'
+            });
+          }
+
+
+          room = success.room;
+
 
 
           if (room.waitRoom && room.me.role != "moderator") {

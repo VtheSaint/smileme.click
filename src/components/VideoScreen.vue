@@ -6,7 +6,6 @@
     class="mySwiper"
     ref="mySwiper"
   >
-  
   <swiper-slide v-slot="{isActive}">
     <InfoSlide :isActive="isActive">
     </InfoSlide>

@@ -17,14 +17,12 @@
 
 
 
-
   <script setup>
   import { defineProps, toRefs, ref, watchEffect } from 'vue';
   const props = defineProps({
     guid: String,
     isActive: Boolean,
   });
-
 
 
   const mp4_base_url = "https://vz-217da3db-313.b-cdn.net/"
@@ -66,6 +64,7 @@
 
   watchEffect(() => {
   if (isActiveRef.value) {
+    togglePlay(); // Play the video if isActiveRef is true
     togglePlay(); // Play the video if isActiveRef is true
   } else {
     toggleStop(); // Pause the video if isActiveRef is false
