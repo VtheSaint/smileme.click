@@ -2,6 +2,7 @@
       <div class="video-container">
       <video
         class="video"
+        autoplay
         ref="vidRef"
         @click="play_pause"
         playsinline="true"
@@ -148,6 +149,8 @@ const res = await createRoom()
                         'event_label': 'Denied'
                       });
                     }
+                    toggledOnce.value = true
+
 
 
 
@@ -176,6 +179,7 @@ const res = await createRoom()
               'event_label': 'Granted'
             });
           }
+          toggledOnce.value = true
 
 
           room = success.room;
@@ -208,16 +212,10 @@ const res = await createRoom()
 
 
 }
+
 })
 
-
-function googleEvent() {
-  window.dataLayer = window.dataLayer || [];
-    dataLayer.push({
-      'event': 'cameraAccess',
-      'cameraStatus': 'Granted'
-    });
-}
+toggleStop();
 
 </script>
 

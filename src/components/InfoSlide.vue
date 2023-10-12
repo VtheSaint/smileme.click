@@ -1,19 +1,20 @@
 <template>
-    <div class="video-container">
+  <Transition>
+    <div v-if="!isLoading" class="video-container">
         <video
+            autoplay
+            muted
             playsinline
             class="video"
             @click="play_pause"
             preload="auto"
             ref="vidRef"
+            :onloadedmetadata="togglePlay"
             >
             <source src="https://vz-971b56fe-252.b-cdn.net/3b9b8e0e-a422-462b-968d-d6c0b0ef5ac0/play_720p.mp4" type="video/mp4" />
             <source src="https://vz-971b56fe-252.b-cdn.net/3b9b8e0e-a422-462b-968d-d6c0b0ef5ac0/playlist.m3u8" type="video/mp4" />
         </video>
-        <!-- <button v-show="!is_playing" class="second-custom-button" @click="play_pause">
-          ПУСК
-        </button> -->
-      <svg 
+      <!-- <svg 
       @click="play_pause"
       v-show="visible"
       class="second-custom-button" fill="#8ed6f8" height="500px" width="500px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -25,10 +26,16 @@
         <path d="M30,0C13.458,0,0,13.458,0,30s13.458,30,30,30s30-13.458,30-30S46.542,0,30,0z M30,58C14.561,58,2,45.439,2,30
           S14.561,2,30,2s28,12.561,28,28S45.439,58,30,58z"/>
       </g>
-      </svg>
-        <button class="custom-button" @click="swiper.slideNext()">
+      </svg> -->
+        <button class="custom-button first" @click="swiper.slideNext()">
             ПРОПУСТИТЬ
         </button>
+        <button class="custom-button second" @click="unmute">
+            UNMUTE
+        </button>
+    </div>
+  </Transition>
+    <div v-show="isLoading" class="loading">
     </div>
 </template>
 
@@ -42,12 +49,15 @@ const props = defineProps({
 isActive: Boolean,
 });
 
-const visible = ref(true)
+const visible = ref(false)
 const vidRef = ref(null); // Reference to the video element
 let isActiveRef = toRefs(props).isActive;
 let is_playing= ref(false)
+let isLoading = ref(true)
 
-
+const test = () => { 
+  console.log("Loaded");
+}
 const swiper = useSwiper();
 
 const play_pause = () => {
@@ -85,21 +95,33 @@ const play_pause = () => {
   }
 
 
+  const unmute = () => {
+    const video = vidRef.value;
+    if (video) {
+      console.log(video.muted);
+      video.muted = !video.muted; 
+    }
+  }
+
   watchEffect(() => {
   if (isActiveRef.value) {
     togglePlay(); // Play the video if isActiveRef is true
-    visible.value=true
   } else {
     toggleStop(); // Pause the video if isActiveRef is false
   }
 });
 
+
+setTimeout(() => {
+  isLoading.value = false;
+  // setTimeout(togglePlay(), 1000)
+ }, 
+3000)
 // togglePlay(); // Play the video if isActiveRef is true
 // setTimeout(() => {
 //   togglePlay(); 
 // }, 1000)
 // Play the video if isActiveRef is true
-
 
 
 
@@ -130,19 +152,6 @@ position: relative;
     cursor: pointer;
 }
 
-.second-custom-button {
-  position: absolute;
-  bottom: 50%; /* Регулируйте этот отступ, чтобы установить кнопку в нужное место */
-  left: 50%; /* Располагаем кнопку в центре горизонтально */
-  transform: translateX(-50%); /* Центрируем кнопку относительно центра видео */
-  /* background-color: #fff; Цвет фона кнопки */
-  color: #fff; /* Цвет текста на кнопке */
-  padding: 10px 20px; /* Размеры кнопки */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 
 svg {
   position: absolute;
@@ -153,6 +162,51 @@ svg {
   z-index: 10;
 }
 
+.loading {
+  position: absolute;
+  bottom: 45%; /* Регулируйте этот отступ, чтобы установить кнопку в нужное место */
+  left: 45%; /* Располагаем кнопку в центре горизонтально */
+  width: 50px;
+  height: 50px;
+  margin: 20px auto;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #8ed6f8;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.second {
+  transform: translateX(-50%); /* Центрируем кнопку относительно центра видео */
+  left: 70%; /* Располагаем кнопку в центре горизонтально */
+  padding: 10px 35px; /* Размеры кнопки */
+
+}
+
+.first {
+  left: 30%; /* Располагаем кнопку в центре горизонтально */
+  transform: translateX(-50%); /* Центрируем кнопку относительно центра видео */
+
+
+}
 </style>
 
 

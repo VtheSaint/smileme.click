@@ -2,6 +2,7 @@
     <div class="video-container">
       <video
         class="video"
+        autoplay
         ref="vidRef"
         @click="play_pause"
         playsinline="true"
@@ -70,6 +71,7 @@
     toggleStop(); // Pause the video if isActiveRef is false
   }
 });
+toggleStop();
   
   </script>
   
