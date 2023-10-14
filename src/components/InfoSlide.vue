@@ -31,7 +31,7 @@
             ПРОПУСТИТЬ
         </button>
         <button class="custom-button second" @click="unmute">
-            UNMUTE
+            ВКЛ.ЗВУК
         </button>
     </div>
   </Transition>
@@ -145,10 +145,10 @@ position: relative;
     left: 50%; /* Располагаем кнопку в центре горизонтально */
     transform: translateX(-50%); /* Центрируем кнопку относительно центра видео */
     background-color: #8ed6f8; /* Цвет фона кнопки */
-    color: #fff; /*Цвет текста на кнопке*/
+    color: #000; /*Цвет текста на кнопке*/
     padding: 10px 20px; /* Размеры кнопки */
-    border: none;
-    border-radius: 5px;
+    border: 1px solid #000; 
+    border-radius: 20px;
     cursor: pointer;
 }
 
@@ -204,6 +204,7 @@ svg {
 .first {
   left: 30%; /* Располагаем кнопку в центре горизонтально */
   transform: translateX(-50%); /* Центрируем кнопку относительно центра видео */
+  /* padding: 10px 45px; Размеры кнопки */
 
 
 }
